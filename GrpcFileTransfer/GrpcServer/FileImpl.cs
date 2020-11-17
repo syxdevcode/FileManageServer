@@ -89,7 +89,7 @@ namespace GrpcServer
             }
             finally
             {
-                fs?.Dispose();
+                fs?.DisposeAsync();
             }
             Console.WriteLine($"{request.Mark}，文件传输完成。共计【{lstSuccFiles.Count / request.FileNames.Count}】，耗时：{DateTime.Now - startTime}");
         }
@@ -163,7 +163,7 @@ namespace GrpcServer
                             savePath = Path.Combine(savePath, reply.FileName);
 
                             fs = new FileStream(savePath, FileMode.Create, FileAccess.ReadWrite);
-                            Console.WriteLine($"{mark}，上传文件：{savePath}，{DateTime.UtcNow.ToString("HH:mm:ss:ffff")}");
+                            Console.WriteLine($"{mark}，上传文件：{savePath}，{DateTime.UtcNow:HH:mm:ss:ffff}");
                         }
                         lstContents.Add(reply);//加入链表
                         if (lstContents.Count() >= 20)//每个包1M，20M为一个集合，一起写入数据。
@@ -180,7 +180,7 @@ namespace GrpcServer
             }
             finally
             {
-                fs?.Dispose();
+                fs?.DisposeAsync();
             }
         }
     }
