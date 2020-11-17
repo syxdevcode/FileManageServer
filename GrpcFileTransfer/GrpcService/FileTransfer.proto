@@ -1,0 +1,28 @@
+﻿syntax = "proto3";
+package GrpcService;
+
+service FileTransfer{
+    rpc FileDownload (FileRequest) returns (stream FileReply);
+    rpc FileUpload (stream FileReply) returns(stream FileReturn);
+}
+
+//请求下载文件时，所需下载文件的文件名称集合
+message FileRequest{
+    repeated string FileNames=1;//文件名集合
+    //repeated重复字段  类似链表；optional可有可无的字段；required必要设置字段
+    string Mark = 2;//携带的包
+}
+
+//下载和上传文件时的应答数据
+message FileReply{
+    string FileName=1;//文件名
+    int32 Block = 2;//标记---第几个数据
+    bytes Content = 3;//数据
+    string Mark = 4;//携带的包
+ }
+
+//数据上传时的返回值
+message FileReturn{
+    string FileName=1;//文件名
+    string Mark = 2;//携带的包
+}
